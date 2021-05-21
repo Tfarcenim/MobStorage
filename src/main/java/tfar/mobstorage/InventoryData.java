@@ -1,5 +1,6 @@
 package tfar.mobstorage;
 
+import com.google.common.collect.Sets;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -60,6 +61,12 @@ public class InventoryData extends SavedData {
         serverPlayer.containerMenu.addSlotListener(serverPlayer);
     }
 
+    public boolean hasSaddle(Mob mob) {
+        UUID uuid = mob.getUUID();
+        SimpleContainer container = invMap.get(uuid);
+        if (container == null) return false;
+        return container.hasAnyOf(Sets.newHashSet(MobStorage.FLYING_SADDLE));
+    }
 
 
     @Override

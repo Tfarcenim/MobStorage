@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XaX",
+    "X#X",
+    "XaX"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:leather"
+    },
+    "a": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "mobstorage:flying_saddle"
+  }
+}
