@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "tfar.mobstorage.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ClientPacketListenerMixin",
+    "HorseInventoryMixin",
+    "MobMixin",
+    "NearestAttackableTargetGoalMixin",
+    "ServerPlayerAccess"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
