@@ -7,6 +7,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.game.ClientboundHorseScreenOpenPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -68,6 +70,13 @@ public class InventoryData extends SavedData {
         return container.hasAnyOf(Sets.newHashSet(MobStorage.FLYING_SADDLE));
     }
 
+    public void dropItems(Mob mob) {
+        UUID uuid = mob.getUUID();
+        SimpleContainer container = invMap.get(uuid);
+        if (container == null) return;
+        Level level = mob.level;
+        Containers.dropContents(level, mob.blockPosition(), container);
+    }
 
     @Override
     public void load(CompoundTag compoundTag) {

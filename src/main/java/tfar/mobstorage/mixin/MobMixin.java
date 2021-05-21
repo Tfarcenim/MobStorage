@@ -1,5 +1,6 @@
 package tfar.mobstorage.mixin;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import tfar.mobstorage.InventoryData;
 import tfar.mobstorage.MobStorage;
 
 @Mixin(Mob.class)
@@ -34,7 +36,9 @@ abstract class MobMixin extends LivingEntity {
     @Inject(method = "baseTick",at = @At("RETURN"))
     private void entitytick(CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer) this.getPassengers().stream().filter(entity -> entity instanceof ServerPlayer).findFirst().orElse(null);
-        if (player!=null) {
+        if (player!=null &&!level.isClientSide) {
+            InventoryData data = InventoryData.get((ServerLevel) level);
+            if (data.hasSaddle((Mob)(Object)this))
             this.move(MoverType.SELF,player.getLookAngle().scale(.75));
         }
     }

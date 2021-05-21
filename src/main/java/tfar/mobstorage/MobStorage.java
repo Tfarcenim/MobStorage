@@ -28,12 +28,13 @@ public class MobStorage implements ModInitializer {
 		if (!player.level.isClientSide) {
 			ServerPlayer serverPlayer = (ServerPlayer)player;
 			InventoryData data = InventoryData.get((ServerLevel) player.level);
-			if (player.isCrouching() || !data.hasSaddle(mob)) {
+			if (player.isCrouching()) {
 				data.openInventory(player, mob);
 			} else {
 				mob.setAggressive(false);
 				mob.setTarget(null);
 				player.startRiding(mob);
+				mob.setNoGravity(true);
 			}
 		}
 		return true;
