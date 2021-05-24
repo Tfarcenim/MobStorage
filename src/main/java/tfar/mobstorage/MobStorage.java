@@ -8,14 +8,16 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SaddleItem;
+import net.minecraft.world.item.Rarity;
 
 public class MobStorage implements ModInitializer {
 
-	public static final Item FLYING_SADDLE = new SaddleItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_TRANSPORTATION));
+	public static final Item FLYING_SADDLE = new FlyingSaddleItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_TRANSPORTATION).rarity(Rarity.UNCOMMON));
 
 	public static final String MODID = "mobstorage";
 
@@ -34,9 +36,26 @@ public class MobStorage implements ModInitializer {
 				mob.setAggressive(false);
 				mob.setTarget(null);
 				player.startRiding(mob);
-				mob.setNoGravity(true);
+				if (data.hasSaddle(mob)) {
+					mob.setNoGravity(true);
+				}
 			}
 		}
 		return true;
 	}
+
+	public static boolean dragonInteract(Player player, InteractionHand interactionHand, EnderDragonPart mob, InteractionResult result) {
+		if (!player.level.isClientSide) {
+			ServerPlayer serverPlayer = (ServerPlayer)player;
+			InventoryData data = InventoryData.get((ServerLevel) player.level);
+			EnderDragon dragon = mob.parentMob;
+			if (player.isCrouching()) {
+				data.openInventory(player, dragon);
+			} else {
+				player.startRiding(dragon);
+			}
+		}
+		return true;
+	}
+
 }

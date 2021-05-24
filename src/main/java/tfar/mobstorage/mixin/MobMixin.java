@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,8 +39,11 @@ abstract class MobMixin extends LivingEntity {
         ServerPlayer player = (ServerPlayer) this.getPassengers().stream().filter(entity -> entity instanceof ServerPlayer).findFirst().orElse(null);
         if (player!=null &&!level.isClientSide) {
             InventoryData data = InventoryData.get((ServerLevel) level);
-            if (data.hasSaddle((Mob)(Object)this))
-            this.move(MoverType.SELF,player.getLookAngle().scale(.75));
+            if (data.hasSaddle((Mob)(Object)this)) {
+                setNoGravity(true);
+                this.setDeltaMovement(Vec3.ZERO);
+                this.move(MoverType.SELF, player.getLookAngle().scale(.75));
+            }
         }
     }
 }

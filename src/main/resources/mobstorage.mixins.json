@@ -5,15 +5,19 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ClientPacketListenerMixin",
+    "EnderDragonMixin",
+    "EntityMixin",
     "HorseInventoryMixin",
     "LivingEntityMixin",
     "MobMixin",
     "NearestAttackableTargetGoalMixin",
+    "ServerGamePacketListenerImplMixin",
     "ServerPlayerAccess",
     "SwellGoalMixin",
     "TargetGoalMixin"
   ],
   "client": [
+    "MultiPlayerGameModeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
